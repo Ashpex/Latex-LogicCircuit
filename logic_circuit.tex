@@ -1,0 +1,372 @@
+
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{subfiles}
+\usepackage{tcolorbox}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{circuitikz}
+\usepackage{tikz}
+
+% FORMATTING
+
+\geometry{
+    a4paper,
+    total={170mm,250mm},
+    left=20mm,
+    top=30mm,
+ }
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{19CTT4}
+\lhead{Mạch Logic}
+\rfoot{Trang \thepage}\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+\setlength{\headheight}{15pt}
+\graphicspath{ {./images/} }
+
+% DEFINE NEW COMMAND
+\newcommand{\SubItem}[1]{
+    {\setlength\itemindent{15pt} \item[-] #1}
+}
+
+% DOCUMENT
+\title{PHẦN 4: MẠCH LOGIC}
+
+\author{LỚP 19CTT4}
+
+\date{2021–07–05}
+
+
+\begin{document}
+
+\begin{titlepage}
+    
+    \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+    
+    \center % Center everything on the page
+    \vspace*{\fill}
+     
+    \textsc{\LARGE Đại học Khoa học Tự nhiên}\\[0.2cm]
+    \textsc{\large Đại học Quốc gia TP. HCM }\\[1.5cm] 
+    \textsc{\Large KHOA CÔNG NGHỆ THÔNG TIN}\\[0.2cm] 
+    \textsc{\large LỚP 19CTT4 }\\[0.5cm]
+    \HRule \\[0.4cm]
+    { \huge \bfseries Tài liệu ôn thi cuối kỳ môn\break 
+    Hệ thống máy tính}\\[0.4cm] % Title of your document
+    \HRule \\[1.5cm]
+    \LARGE \textbf {PHẦN 4: MẠCH LOGIC \\}
+    
+    \begin{minipage}{1\textwidth}
+    \begin{center}
+        \LARGE Ngày 05/07/2021
+    \end{center}
+    \end{minipage}\\[2cm]
+    \includegraphics[width=10em]{images/profile.png}
+    \vspace*{\fill} % Fill the rest of the page with whitespace
+    \end{titlepage}
+
+
+    % MỤC LỤC
+    \renewcommand*\contentsname{\begin{center} \LARGE Mục lục \end{center}}
+    \setcounter{tocdepth}{2}
+    \tableofcontents
+    \pagebreak
+\section{Khái niệm mạch số}
+
+Là thiết bị điện tử hoạt động với \textcolor{red}{2 mức điện áp:}
+
+\begin{itemize}
+
+    \item \textcolor{red}{Cao:} thể hiện bằng giá trị luận lý (quy ước) là \textcolor{red}{1}.
+    \item \textcolor{red}{Thấp:} thể hiện bằng giá trị luận lý (quy ước) là \textcolor{red}{0}. 
+\end{itemize}
+
+
+Được xây dựng từ những thành phần cơ bản là \textcolor{red}{cổng luận lý (logic gate)}
+\begin{itemize}
+    \item Cổng luận lý là thiết bị điện tử gồm 1/ nhiều tín hiệu đầu vào (input) - 1 tín hiệu đầu ra output.
+    \item \textcolor{red}{\begin{math}output = F (input\_1, input\_2, ..., input\_n)\end{math}.}
+    \item Tùy thuộc vào cách xử lý của hàm F sẽ tạo ra nhiều loại cổng luận lý.
+\end{itemize}
+
+Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transistor}.
+
+\subsection{Cổng luận lý(Logic gate)}
+
+
+
+\begin{table}[H]
+    \centering
+    % \begin{tabular}{|l|l|l|}
+    \resizebox{\textwidth}{!}{\begin{tabular}{|l|c|l|}
+    \hline
+    \multicolumn{1}{|c|}{{\color[HTML]{9A0000} \textbf{Tên cổng}}} & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hình vẽ đại diện}}}                       & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hàm đại số Bun}}} \\ \hline
+    {\color[HTML]{963400} AND}                                     & \begin{circuitikz} \draw (4,4) node[and port, scale = 0.5] {}; \end{circuitikz}    & \textbackslash{}x.y hay \textbackslash{}xy                          \\ \hline
+    {\color[HTML]{963400} OR}                                      & \begin{circuitikz} \draw (4,4) node[or port, scale = 0.5] {}; \end{circuitikz}     & x + Y                                                               \\ \hline
+    {\color[HTML]{963400} XOR}                                     & \begin{circuitikz} \draw (0,1) node[xor port, scale = 0.5] {}; \end{circuitikz}    & \textbackslash{}oplus                                               \\ \hline
+    {\color[HTML]{963400} NOT}                                     & \begin{circuitikz} \draw (0,1) node[not port, scale = 0.5] {}; \end{circuitikz}    &                                                                     \\ \hline
+    {\color[HTML]{963400} NAND}                                    & \begin{circuitikz} \draw (0,1) node[nand port, scale = 0.5] {}; \end{circuitikz}   &                                                                     \\ \hline
+    {\color[HTML]{963400} NOR}                                     & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}    &                                                                     \\ \hline
+    {\color[HTML]{963400} NXOR}                                    & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}   &                                                                     \\ \hline
+    \end{tabular}}
+    \end{table}
+
+
+\subsection{Bảng chân trị}
+
+\begin{tcolorbox}
+    \textbf{Example:} This is a box    
+\end{tcolorbox}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{AND}}
+    
+    \begin{circuitikz} \draw
+        (0,1) node[and port] (myand1) {}
+            (myand1.in 1) node [anchor=east] {A}
+            (myand1.in 2) node [anchor=east] {B}
+            (myand1.out)  node [anchor=west] {out};
+
+        \end{circuitikz}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & out                      \\ \hline
+        0                         & 0                         & 0                        \\ \hline
+        0                         & 1                         & 0                        \\ \hline
+        1                         & 0                         & 0                        \\ \hline
+        {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 1} \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textbf{\textcolor{red}{OR}}
+    
+    \begin{circuitikz} \draw
+        (0,1) node[or port] (myor1) {}
+            (myor1.in 1) node [anchor=east] {A}
+            (myor1.in 2) node [anchor=east] {B}
+            (myor1.out)  node [anchor=west] {out};
+
+        \end{circuitikz}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & out                      \\ \hline
+        {\color[HTML]{FE0000} 0}  & {\color[HTML]{FE0000} 0}  & {\color[HTML]{FE0000} 0} \\ \hline
+        0                         & 1                         & 1                        \\ \hline
+        1                         & 0                         & 1                        \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1} \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textbf{\textcolor{red}{NOT}}
+    
+    \begin{circuitikz} \draw
+        (0,1) node[not port] (mynot1) {}
+            (mynot1.in 1) node [anchor=east] {A}
+            (mynot1.out)  node [anchor=west] {out};
+
+        \end{circuitikz}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{34CDF9}A} & \multicolumn{1}{c|}{\cellcolor[HTML]{F8FF00}out} \\ \hline
+        {\color[HTML]{FE0000} 0}                        & {\color[HTML]{329A9D} 1}                         \\ \hline
+        {\color[HTML]{329A9D} 1}                        & 0                                                \\ \hline
+        \end{tabular}
+        \end{table}
+
+    \item \textbf{\textcolor{red}{NAND}}
+    
+    \begin{circuitikz} \draw
+        (0,1) node[nand port] (mynand1) {}
+            (mynand1.in 1) node [anchor=east] {A}
+            (mynand1.in 2) node [anchor=east] {B}
+            (mynand1.out)  node [anchor=west] {out};
+
+        \end{circuitikz}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|l|l|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & out                      \\ \hline
+        0                         & 0                         & 1                        \\ \hline
+        0                         & 1                         & 1                        \\ \hline
+        1                         & 0                         & 1                        \\ \hline
+        {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 0} \\ \hline
+        \end{tabular}
+        \end{table}
+
+    \item \textbf{\textcolor{red}{NOR}}
+    
+    \begin{circuitikz} \draw
+        (0,1) node[nor port] (mynor1) {}
+            (mynor1.in 1) node [anchor=east] {A}
+            (mynor1.in 2) node [anchor=east] {B}
+            (mynor1.out)  node [anchor=west] {out};
+    
+        \end{circuitikz}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|l|l|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & out                      \\ \hline
+        {\color[HTML]{FE0000} 0}  & {\color[HTML]{FE0000} 0}  & {\color[HTML]{FE0000} 1} \\ \hline
+        0                         & 1                         & 0                        \\ \hline
+        1                         & 0                         & 0                        \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0} \\ \hline
+        \end{tabular}
+        \end{table}
+
+    \item \textbf{\textcolor{red}{XOR}}
+    
+    \begin{circuitikz} \draw
+        (0,1) node[xor port] (myxor1) {}
+            (myxor1.in 1) node [anchor=east] {A}
+            (myxor1.in 2) node [anchor=east] {B}
+            (myxor1.out)  node [anchor=west] {out};
+    
+        \end{circuitikz}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|l|l|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & out                      \\ \hline
+        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0} \\ \hline
+        {\color[HTML]{FE0000} 0}  & {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 1} \\ \hline
+        {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 0}  & {\color[HTML]{FE0000} 1} \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0} \\ \hline
+        \end{tabular}
+        \end{table}
+\end{itemize}
+
+\subsection{Một số đẳng thức cơ bản}
+
+\section{Mạch tổ hợp}
+
+\subsection{Khái niệm}
+\begin{itemize}
+    \item {Gồm \(n\) ngõ vào (input); \(m\) ngõ ra (output)}
+        \SubItem {Mỗi ngõ ra là 1 hàm luận lý của các ngõ vào}
+    \item {Mạch tổ hợp không mang tính ghi nhớ: Ngõ ra chỉ phụ thuộc vào Ngõ vào hiện tại, không xét những giá trị trong quá khứ}
+
+
+\end{itemize}
+
+\subsection{Độ trễ mạch}
+\begin{itemize}
+    \item Độ trễ mạch (\textcolor{red}{Propagation delay/ gate delay}) = Thời gian điểm tín hiệu ra ổn định \(-\) thời điểm tín hiệu vào ổn định.
+    \item Mục tiêu thiết kế mạch: làm giảm thời gian độ trễ mạch.
+\end{itemize}
+
+\subsection{Các bước thiết kế}
+
+Thường trải qua 3 bước:
+\begin{itemize}
+    \item \textcolor{red}{\textbf{Bước 1:} Lập bảng chân trị:}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|l|l|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & F                        \\ \hline
+        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 1} \\ \hline
+        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1} \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 1} \\ \hline
+        {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 1}  & {\color[HTML]{FE0000} 0} \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textcolor{red}{\textbf{Bước 2:} Viết hàm luận lý} 
+    
+    \begin{equation*}
+        F = \overline{AB}
+    \end{equation*}
+    
+    \item \textcolor{red}{\textbf{Bước 3:} Vẽ sơ đồ mạch và thử nghiệm}
+    
+    \centering
+    \begin{circuitikz} \draw
+        (0,1) node[nand port] (mynand1) {}
+            (mynand1.in 1) node [anchor=east] {A}
+            (mynand1.in 2) node [anchor=east] {B}
+            (mynand1.out)  node [anchor=west] {out};
+    
+        \end{circuitikz}
+\end{itemize}
+
+\subsection{Ví dụ}
+\begin{tcolorbox}
+    \textbf{Ví dụ 1:} Thiết kế mạch cộng 2 bits không nhớ 
+\end{tcolorbox}
+
+\begin{itemize}
+    \item \textbf{Bước 1:} Lập bảng chân trị
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|l|l|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & F                        \\ \hline
+        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0} \\ \hline
+        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 1}  & {\color[HTML]{FE0000} 1} \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0}  & {\color[HTML]{FE0000} 1} \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0} \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textbf{Bước 2:} Lập biểu thức
+    
+    \begin{align*}
+        F & = \overline{A}.B + A.\overline{B} \\
+          & = A \oplus B
+    \end{align*}
+
+    \item \textbf{Bước 3:} Vẽ mạch
+
+    \centering
+    \begin{circuitikz} \draw
+    
+        (0,1) node[xor port] (myxor1) {}
+            (myxor1.in 1) node [anchor=east] {A}
+            (myxor1.in 2) node [anchor=east] {B}
+            (myxor1.out)  node [anchor=west] {out};
+        
+        \end{circuitikz}
+\end{itemize}
+
+\begin{tcolorbox}
+    \textbf{Ví dụ 2:} Thiết kế mạch kiểm tra số nguyên không dấu 3 bits có chia hết cho 3
+\end{tcolorbox}
+
+
+
+\subsection{Một số mạch tổ hợp cơ bản: mạch cộng,...}
+
+\end{document}
