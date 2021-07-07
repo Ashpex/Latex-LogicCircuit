@@ -1,6 +1,8 @@
 
 \documentclass[12pt]{article}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACKAGE INCLUDING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -19,8 +21,9 @@
 \usepackage{circuitikz}
 \usepackage{tikz}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FORMATTING
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \geometry{
     a4paper,
     total={170mm,250mm},
@@ -44,12 +47,19 @@
 \setlength{\headheight}{15pt}
 \graphicspath{ {./images/} }
 
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DEFINE NEW COMMAND
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\SubItem}[1]{
     {\setlength\itemindent{15pt} \item[-] #1}
 }
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{PHẦN 4: MẠCH LOGIC}
 
 \author{LỚP 19CTT4}
@@ -58,6 +68,7 @@
 
 
 \begin{document}
+\begin{sloppypar}
 
 \begin{titlepage}
     
@@ -285,6 +296,7 @@ Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transi
 \begin{itemize}
     \item Độ trễ mạch (\textcolor{red}{Propagation delay/ gate delay}) = Thời gian điểm tín hiệu ra ổn định \(-\) thời điểm tín hiệu vào ổn định.
     \item Mục tiêu thiết kế mạch: làm giảm thời gian độ trễ mạch.
+    \subitem \includegraphics[width=7cm]{delay.png}
 \end{itemize}
 
 \subsection{Các bước thiết kế}
@@ -322,7 +334,43 @@ Thường trải qua 3 bước:
         \end{circuitikz}
 \end{itemize}
 
-\subsection{Ví dụ}
+\subsubsection{SOP - Sum of Products}
+Giả sử đã có bảng chân trị cho mạch \(n\) đầu vào \textcolor{red}{\(x_{1},...,x_{n}\)} và 1 đầu ra \(f\).
+\begin{itemize}
+    \item Ta dễ dàng lập công thức (hàm) logic theo thuật toán sau:
+    \SubItem {Ứng với mỗi hàng của bảng chân trị có đầu ra = 1, ta tạo thành 1 tích có dạng \(u_{1}.u_{2}...u{n}\)} với:
+    \textcolor{red}{
+    \[
+        f(x)= 
+    \begin{cases}
+        x_{i},              & \text{nếu } x_{i} = 1 \\
+        \overline{x_{i}},   & \text{nếu} x_{i} = 0
+    \end{cases}
+    \]
+    }
+    \item \textcolor{red}{Cộng các tích tìm được lại thành tổng -> Công thức của \(f\)}
+\end{itemize}
+Ví dụ:
+\begin{table}[H]
+    \begin{tabular}{llll|l}
+    \(\textbf{STT}\)            & \multicolumn{1}{r}{\(\boldsymbol{x_{1}}\)}                    & \(\boldsymbol{x_{2}}\) & \(\boldsymbol{x_{3}}\) & \(\boldsymbol{f}\)          \\ \hline
+    0                           & 0                      & 0  & 0  & 0                          \\
+    \textbf{1}                  & 0                      & 0  & 1  & {\color[HTML]{FE0000} 1}   \(\rightarrow \overline{x_{1}}.\overline{x_{2}}.x_{3}\)                         \\
+    \textbf{2}                  & 0                      & 1  & 0  & {\color[HTML]{FE0000} 1}   \(\rightarrow \overline{x_{1}}. x_{2}.\overline{x_{3}}\)                        \\
+    3                           & 0                      & 1  & 1  & 0                          \\
+    4                           & 1                      & 0  & 0  & 0                          \\
+    \textbf{5}                  & 1                      & 0  & 1  & {\color[HTML]{FE0000} 1}   \(\rightarrow x_{1}.\overline{x_{2}}.x_{3}\)                                    \\
+    6                           & 1                      & 1  & 0  & 0                          \\
+    7                           & 1                      & 1  & 1  & 0                       
+    \end{tabular}
+    \end{table}
+\[\boldsymbol{f = \overline{x_{1}}.\overline{x_{2}}.x_{3} + \overline{x_{1}}. x_{2}.\overline{x_{3}} + x_{1}.\overline{x_{2}}.x_{3} }\]
+
+\subsubsection{POS - Product of Sum}
+\subsubsection{Đơn giản hóa hàm logic}
+\paragraph{Đại số Bun}
+\paragraph{Bản đồ Karnaugh}
+\subsection{Ví dụ thiết kế mạch}
 \begin{tcolorbox}
     \textbf{Ví dụ 1:} Thiết kế mạch cộng 2 bits không nhớ 
 \end{tcolorbox}
@@ -365,8 +413,40 @@ Thường trải qua 3 bước:
     \textbf{Ví dụ 2:} Thiết kế mạch kiểm tra số nguyên không dấu 3 bits có chia hết cho 3
 \end{tcolorbox}
 
+\begin{itemize}
+    \item \textbf{Bước 1:} Lập bảng chân trị
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|l|l|
+        >{\columncolor[HTML]{F8FF00}}l |}
+        \hline
+        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & F                        \\ \hline
+        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0} \\ \hline
+        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 1}  & {\color[HTML]{FE0000} 1} \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0}  & {\color[HTML]{FE0000} 1} \\ \hline
+        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0} \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textbf{Bước 2:} Lập biểu thức
+    
+    \begin{align*}
+        F & = \overline{A}.B + A.\overline{B} \\
+          & = A \oplus B
+    \end{align*}
 
+    \item \textbf{Bước 3:} Vẽ mạch
+
+    \centering
+    \begin{circuitikz} \draw
+    
+        (0,1) node[xor port] (myxor1) {}
+            (myxor1.in 1) node [anchor=east] {A}
+            (myxor1.in 2) node [anchor=east] {B}
+            (myxor1.out)  node [anchor=west] {out};
+        
+        \end{circuitikz}
+\end{itemize}
 
 \subsection{Một số mạch tổ hợp cơ bản: mạch cộng,...}
-
+\end{sloppypar}
 \end{document}
