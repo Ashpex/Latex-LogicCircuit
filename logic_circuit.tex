@@ -1,5 +1,6 @@
 
 \documentclass[12pt]{article}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE INCLUDING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,7 +21,7 @@
 \usepackage{float}
 \usepackage{circuitikz}
 \usepackage{tikz}
-
+\usepackage{bm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FORMATTING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,6 +50,9 @@
 
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
+
+\usetikzlibrary{matrix,calc}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DEFINE NEW COMMAND
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -56,6 +60,155 @@
     {\setlength\itemindent{15pt} \item[-] #1}
 }
 
+%isolated term
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - node
+%#3 - filling color
+\newcommand{\implicantsol}[3][0]{
+    \draw[rounded corners=3pt, fill=#3, opacity=0.3] ($(#2.north west)+(135:#1)$) rectangle ($(#2.south east)+(-45:#1)$);
+    }
+
+
+%internal group
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicant}[4][0]{
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(#2.north west)+(135:#1)$) rectangle ($(#3.south east)+(-45:#1)$);
+    }
+
+%group lateral borders
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicantcostats}[4][0]{
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(rf.east |- #2.north)+(90:#1)$)-| ($(#2.east)+(0:#1)$) |- ($(rf.east |- #3.south)+(-90:#1)$);
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(cf.west |- #2.north)+(90:#1)$) -| ($(#3.west)+(180:#1)$) |- ($(cf.west |- #3.south)+(-90:#1)$);
+}
+
+%group top-bottom borders
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - top left node
+%#3 - bottom right node
+%#4 - filling color
+\newcommand{\implicantdaltbaix}[4][0]{
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(cf.south -| #2.west)+(180:#1)$) |- ($(#2.south)+(-90:#1)$) -| ($(cf.south -| #3.east)+(0:#1)$);
+    \draw[rounded corners=3pt, fill=#4, opacity=0.3] ($(rf.north -| #2.west)+(180:#1)$) |- ($(#3.north)+(90:#1)$) -| ($(rf.north -| #3.east)+(0:#1)$);
+}
+
+%group corners
+%#1 - Optional. Space between node and grouping line. Default=0
+%#2 - filling color
+\newcommand{\implicantcantons}[2][0]{
+    \draw[rounded corners=3pt, opacity=.3] ($(rf.east |- 0.south)+(-90:#1)$) -| ($(0.east |- cf.south)+(0:#1)$);
+    \draw[rounded corners=3pt, opacity=.3] ($(rf.east |- 8.north)+(90:#1)$) -| ($(8.east |- rf.north)+(0:#1)$);
+    \draw[rounded corners=3pt, opacity=.3] ($(cf.west |- 2.south)+(-90:#1)$) -| ($(2.west |- cf.south)+(180:#1)$);
+    \draw[rounded corners=3pt, opacity=.3] ($(cf.west |- 10.north)+(90:#1)$) -| ($(10.west |- rf.north)+(180:#1)$);
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(rf.east |- 0.south)+(-90:#1)$) -|  ($(0.east |- cf.south)+(0:#1)$) [sharp corners] ($(rf.east |- 0.south)+(-90:#1)$) |-  ($(0.east |- cf.south)+(0:#1)$) ;
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(rf.east |- 8.north)+(90:#1)$) -| ($(8.east |- rf.north)+(0:#1)$) [sharp corners] ($(rf.east |- 8.north)+(90:#1)$) |- ($(8.east |- rf.north)+(0:#1)$) ;
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(cf.west |- 2.south)+(-90:#1)$) -| ($(2.west |- cf.south)+(180:#1)$) [sharp corners]($(cf.west |- 2.south)+(-90:#1)$) |- ($(2.west |- cf.south)+(180:#1)$) ;
+    \fill[rounded corners=3pt, fill=#2, opacity=.3] ($(cf.west |- 10.north)+(90:#1)$) -| ($(10.west |- rf.north)+(180:#1)$) [sharp corners] ($(cf.west |- 10.north)+(90:#1)$) |- ($(10.west |- rf.north)+(180:#1)$) ;
+}
+
+
+%Empty Karnaugh map 4x4
+\newenvironment{Karnaugh}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (4,4);
+\draw (0,4) -- node [pos=0.7,above right,anchor=south west] {cd} node [pos=0.7,below left,anchor=north east] {ab} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=8.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+                       \& |(c00)| 00         \& |(c01)| 01         \& |(c11)| 11         \& |(c10)| 10         \& |(cf)| \phantom{00} \\
+|(r00)| 00             \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \& |(3)|  \phantom{0} \& |(2)|  \phantom{0} \&                     \\
+|(r01)| 01             \& |(4)|  \phantom{0} \& |(5)|  \phantom{0} \& |(7)|  \phantom{0} \& |(6)|  \phantom{0} \&                     \\
+|(r11)| 11             \& |(12)| \phantom{0} \& |(13)| \phantom{0} \& |(15)| \phantom{0} \& |(14)| \phantom{0} \&                     \\
+|(r10)| 10             \& |(8)|  \phantom{0} \& |(9)|  \phantom{0} \& |(11)| \phantom{0} \& |(10)| \phantom{0} \&                     \\
+|(rf) | \phantom{00}   \&                    \&                    \&                    \&                    \&                     \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Empty Karnaugh map 2x4
+\newenvironment{Karnaughvuit}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (4,2);
+\draw (0,2) -- node [pos=0.7,above right,anchor=south west] {bc} node [pos=0.7,below left,anchor=north east] {a} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=4.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+                      \& |(c00)| 00         \& |(c01)| 01         \& |(c11)| 11         \& |(c10)| 10         \& |(cf)| \phantom{00} \\
+|(r00)| 0             \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \& |(3)|  \phantom{0} \& |(2)|  \phantom{0} \&                     \\
+|(r01)| 1             \& |(4)|  \phantom{0} \& |(5)|  \phantom{0} \& |(7)|  \phantom{0} \& |(6)|  \phantom{0} \&                     \\
+|(rf) | \phantom{00}  \&                    \&                    \&                    \&                    \&                     \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Empty Karnaugh map 2x2
+\newenvironment{Karnaughquatre}%
+{
+\begin{tikzpicture}[baseline=(current bounding box.north),scale=0.8]
+\draw (0,0) grid (2,2);
+\draw (0,2) -- node [pos=0.7,above right,anchor=south west] {b} node [pos=0.7,below left,anchor=north east] {a} ++(135:1);
+%
+\matrix (mapa) [matrix of nodes,
+        column sep={0.8cm,between origins},
+        row sep={0.8cm,between origins},
+        every node/.style={minimum size=0.3mm},
+        anchor=2.center,
+        ampersand replacement=\&] at (0.5,0.5)
+{
+          \& |(c00)| 0          \& |(c01)| 1  \\
+|(r00)| 0 \& |(0)|  \phantom{0} \& |(1)|  \phantom{0} \\
+|(r01)| 1 \& |(2)|  \phantom{0} \& |(3)|  \phantom{0} \\
+};
+}%
+{
+\end{tikzpicture}
+}
+
+%Defines 8 or 16 values (0,1,X)
+\newcommand{\contingut}[1]{%
+\foreach \x [count=\xi from 0]  in {#1}
+     \path (\xi) node {\x};
+}
+
+%Places 1 in listed positions
+\newcommand{\minterms}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {1};
+}
+
+%Places 0 in listed positions
+\newcommand{\maxterms}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {0};
+}
+
+%Places X in listed positions
+\newcommand{\indeterminats}[1]{%
+    \foreach \x in {#1}
+        \path (\x) node {X};
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT
@@ -99,7 +252,6 @@
 
     % MỤC LỤC
     \renewcommand*\contentsname{\begin{center} \LARGE Mục lục \end{center}}
-    \setcounter{tocdepth}{2}
     \tableofcontents
     \pagebreak
 \section{Khái niệm mạch số}
@@ -367,10 +519,110 @@ Ví dụ:
 \[\boldsymbol{f = \overline{x_{1}}.\overline{x_{2}}.x_{3} + \overline{x_{1}}. x_{2}.\overline{x_{3}} + x_{1}.\overline{x_{2}}.x_{3} }\]
 
 \subsubsection{POS - Product of Sum}
+\begin{itemize}
+    \item Trường hợp số hàng có giá trị \textcolor{red}{đầu ra = 1 nhiều hơn = 0}, ta có thể đặt \(g = \overline{f}\).
+    \item Viết công thức dạng \textcolor{red}{SOP cho \(g\)}.
+    \item Lấy \textcolor{red}{\(f = \overline{g} = \overline{\overline{f}}\)} để có công thức dạng POS (Tích các tổng) của \(f\).
+\end{itemize}
+Ví dụ: (Thêm sau)
 \subsubsection{Đơn giản hóa hàm logic}
+\begin{itemize}
+    \item Sau khi viết được hàm logic, ta có thể vẽ sơ đồ của mạch tổ hợp từ những cộng luận lý cơ bản.
+        \SubItem {Ví dụ: \(f = xy + xz \)} 
+    \item Tuy nhiên ta có thể viết lại hàm logic sao cho sơ đồ mạch sử dụng \textcolor{red}{ít cổng hơn}
+        \SubItem {Ví dụ: \(f = xy + xz = x(y + z)\)}
+    \item Cách đơn giản hóa hàm tổng quát? Một số cách phổ biến:
+        \SubItem{Dùng đại số Bun ( Xem lại bảng "Một số đẳng thức cơ bản" để áp dụng)}
+        \SubItem{Dùng bản đồ Karnaugh} 
+\end{itemize}    
+
 \paragraph{Đại số Bun}
-\paragraph{Bản đồ Karnaugh}
-\subsection{Ví dụ thiết kế mạch}
+\begin{itemize}
+    \item Dùng các phép biển đổi đại số Bun để lược giản hàm logic
+    \item Khuyết điểm:
+        \SubItem{Không có cách là tổng quát cho mọi bài toán}
+        \SubItem{Không chắc kết quả cuối cùng đã tối giản chưa}  
+    \item Ví dụ: Đơn giản hóa các hàm sau
+        \SubItem{\(F(x,y,z) = xyz + \overline{x}yz + x\overline{y}z + xy\overline{z}\)}
+        
+\end{itemize}
+\paragraph{Bản đồ Karnaugh}\mbox{}
+
+Mỗi tổ hợp biến trong bảng chân trị gọi là bộ trị(tạm hiểu là 1 dòng)
+\begin{itemize}
+    \item Biểu diễn hàm có \(n\) biến thì sẽ cho ra tương ứng \(2^{n}\) bộ trị, với vị trí các bộ trị được đánh số từ 0
+    \item Thông tin trong bảng chân trị có thể \textcolor{red}{cô đọng} bằng cách:
+        \SubItem {Liệt kê vị trí các bộ trị (\textcolor{red}{midterm}) với giá trị đầu ra = \textcolor{red}{1} (\textcolor{red}{SOP})}
+        \SubItem {Liệt kê vị trí các bộ trị (\textcolor{red}{maxterm}) với giá trị đầu ra = \textcolor{red}{0} (\textcolor{red}{POS})}
+\end{itemize}
+
+
+\subparagraph{Các dạng bản đồ Karnaugh cơ bản:}
+
+
+\begin{Karnaughquatre}
+    \minterms{1,2}
+    \maxterms{0,3}
+    \implicantsol{1}{green}
+    \implicantsol{2}{red}
+\end{Karnaughquatre}
+
+\begin{Karnaughvuit}
+    \minterms{3,4}
+     \maxterms{0,1,6,7}
+    \indeterminats{2,5}
+    \implicant{3}{2}{green}
+    \implicant{4}{5}{}
+\end{Karnaughvuit}
+
+\subparagraph{Ví dụ:} \mbox{}
+
+\(F(A,B,C) = \Sigma(1,4,5,6,7) \)
+
+\begin{Karnaughvuit}
+    \minterms{3,4}
+     \maxterms{2,3,4,5,6}
+    \indeterminats{}
+    \implicant{3}{2}{green}
+    \implicant{5}{6}{yellow}
+\end{Karnaughvuit}
+
+\paragraph{Đơn giản hàm theo dạng SOP}
+
+\begin{itemize}
+    \item {Hàm logic F biểu diễn bảng chân trị được \textcolor{red}{đưa vào bản đồ bằng các trị 1 tương ứng}.}
+    \item Các \textcolor{red}{ô liền kề có giá trị 1 được gom thành nhóm} sao cho mỗi nhóm sau khi gom có \textcolor{red}{tổng số ô là lũy thừa của 2} (2, 4, 8,...).
+    \item Các nhóm có thể dùng chung ô có giá trị 1 để gạo thành nhóm lớn hơn. Cố gắng tạo những nhóm lớn nhất có thể.
+    \item Nhóm 2/4/8 ô sẽ đơn giản bớt 1/2/3 biến trong số hạng.
+    \item \textcolor{red}{Mỗi nhóm biểu diễn 1 số hạng nhân (Product), Cộng(Sum - OR)}, các số hạng này ta sẽ được biểu thức tối giản của hàm logic F.
+\end{itemize}
+
+
+\begin{tcolorbox}
+    \textbf{Ví dụ 1:} \(F(A,B,C) = \Sigma(3,4,6,7)\)
+\end{tcolorbox}
+
+\includegraphics[width=15cm]{sop_ex1.png}
+
+\begin{equation*}
+    \color{red}
+    \bm{F(A,B,C) = \overline{B}.\overline{D} + \overline{B}.\overline{C} + \overline{A}.C.\overline{D}}
+\end{equation*}
+
+\begin{tcolorbox}
+    \textbf{Ví dụ 2:} \(F(A,B,C) = \Sigma(0,2,4,5,6)\)
+\end{tcolorbox}
+
+\includegraphics[width=15cm]{sop_ex2.png}
+
+\begin{equation*}
+    \color{red}
+    \bm{F(A,B,C) = \overline{C} + A.\overline{B}}
+\end{equation*}
+
+\paragraph{Đơn giản hàm theo dạng POS}
+
+\subsection{Một số bài tập thiết kế mạch}
 \begin{tcolorbox}
     \textbf{Ví dụ 1:} Thiết kế mạch cộng 2 bits không nhớ 
 \end{tcolorbox}
@@ -417,21 +669,25 @@ Ví dụ:
     \item \textbf{Bước 1:} Lập bảng chân trị
     \begin{table}[H]
         \centering
-        \begin{tabular}{|l|l|
-        >{\columncolor[HTML]{F8FF00}}l |}
+        \begin{tabular}{|c|c|c|c|
+        >{\columncolor[HTML]{FCFF2F}}c |}
         \hline
-        \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & F                        \\ \hline
-        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 0} \\ \hline
-        {\color[HTML]{333333} 0}  & {\color[HTML]{333333} 1}  & {\color[HTML]{FE0000} 1} \\ \hline
-        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0}  & {\color[HTML]{FE0000} 1} \\ \hline
-        {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 1}  & {\color[HTML]{333333} 0} \\ \hline
+        \cellcolor[HTML]{34CDF9}Hệ 10 & \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & \cellcolor[HTML]{34CDF9}C & F                        \\ \hline
+        0                             & 0                         & 0                         & 0                         & {\color[HTML]{FE0000} 1} \\ \hline
+        1                             & 0                         & 0                         & 1                         & 0                        \\ \hline
+        2                             & 0                         & 1                         & 0                         & 0                        \\ \hline
+        3                             & 0                         & 1                         & 1                         & {\color[HTML]{FE0000} 1} \\ \hline
+        4                             & 1                         & 0                         & 0                         & 0                        \\ \hline
+        5                             & 1                         & 0                         & 1                         & 0                        \\ \hline
+        6                             & 1                         & 1                         & 0                         & {\color[HTML]{FE0000} 1} \\ \hline
+        7                             & 1                         & 1                         & 1                         & 0                        \\ \hline
         \end{tabular}
         \end{table}
     \item \textbf{Bước 2:} Lập biểu thức
-    
     \begin{align*}
-        F & = \overline{A}.B + A.\overline{B} \\
-          & = A \oplus B
+        F & = \overline{A}.\overline{B}.\overline{C} + \overline{A}.B.C + A.B.\overline{C} \\
+          & = \overline{A}.\overline{B}.\overline{C} + B.(\overline{A}.C + A.\overline{C}) \\
+          & = \overline{A}.\overline{B}.\overline{C} + B.(A \oplus B)
     \end{align*}
 
     \item \textbf{Bước 3:} Vẽ mạch
@@ -447,6 +703,55 @@ Ví dụ:
         \end{circuitikz}
 \end{itemize}
 
-\subsection{Một số mạch tổ hợp cơ bản: mạch cộng,...}
+\begin{tcolorbox}
+    \textbf{Ví dụ 3:} Thiết kế mạch tổ hợp gồm 3 ngõ vào, 1 ngõ ra, sao cho giá trị logic ở ngõ ra là giá trị nào chiếm đa số trong các ngõ vào
+\end{tcolorbox}
+
+\begin{itemize}
+    \item \textbf{Bước 1:} Lập bảng chân trị
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|
+        >{\columncolor[HTML]{FCFF2F}}c |}
+        \hline
+        \cellcolor[HTML]{34CDF9}Hệ 10 & \cellcolor[HTML]{34CDF9}A & \cellcolor[HTML]{34CDF9}B & \cellcolor[HTML]{34CDF9}C & F                        \\ \hline
+        0                             & 0                         & 0                         & 0                         & {\color[HTML]{FE0000} 1} \\ \hline
+        1                             & 0                         & 0                         & 1                         & 0                        \\ \hline
+        2                             & 0                         & 1                         & 0                         & 0                        \\ \hline
+        3                             & 0                         & 1                         & 1                         & {\color[HTML]{FE0000} 1} \\ \hline
+        4                             & 1                         & 0                         & 0                         & 0                        \\ \hline
+        5                             & 1                         & 0                         & 1                         & 0                        \\ \hline
+        6                             & 1                         & 1                         & 0                         & {\color[HTML]{FE0000} 1} \\ \hline
+        7                             & 1                         & 1                         & 1                         & 0                        \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textbf{Bước 2:} Lập biểu thức
+    \begin{align*}
+        F & = \overline{A}.\overline{B}.\overline{C} + \overline{A}.B.C + A.B.\overline{C} \\
+          & = \overline{A}.\overline{B}.\overline{C} + B.(\overline{A}.C + A.\overline{C}) \\
+          & = \overline{A}.\overline{B}.\overline{C} + B.(A \oplus B)
+    \end{align*}
+
+    \item \textbf{Bước 3:} Vẽ mạch
+
+    \centering
+    \begin{circuitikz} \draw
+    
+        (0,1) node[xor port] (myxor1) {}
+            (myxor1.in 1) node [anchor=east] {A}
+            (myxor1.in 2) node [anchor=east] {B}
+            (myxor1.out)  node [anchor=west] {out};
+        
+        \end{circuitikz}
+\end{itemize}
+
+\subsection{Một số mạch tổ hợp cơ bản}
+\subsubsection{Mạch toàn cộng (Full adder)}
+\begin{itemize}
+    \item Mạch tổ hợp thực hiện phép \textcolor{red}{cộng số học 3 bit}.
+    \item Gồm \textcolor{red}{3 ngõ vào} (A,B: bit cần cộng - \(C_{i}\): bit nhớ ) và \textcolor{red}{2 ngõ ra} (kết quả có thể từ 0 đến 3 với giá trị 2 và 3 cần 2 bit biểu diễn -S: ngõ tổng, \(C_{0}\): ngõ nhớ)
+\end{itemize}
+\subsubsection{Mạch giải mã(Decoder)}
+\subsubsection{Mạch mã hóa(Encoder)}
 \end{sloppypar}
 \end{document}
