@@ -5,18 +5,17 @@
 \contentsline {section}{\numberline {2}Mạch tổ hợp}{4}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Khái niệm}{4}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Độ trễ mạch}{4}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Các bước thiết kế}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.3}Các bước thiết kế}{4}{subsection.2.3}%
 \contentsline {subsubsection}{\numberline {2.3.1}SOP - Sum of Products}{5}{subsubsection.2.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.2}POS - Product of Sum}{6}{subsubsection.2.3.2}%
 \contentsline {subsubsection}{\numberline {2.3.3}Đơn giản hóa hàm logic}{6}{subsubsection.2.3.3}%
 \contentsline {paragraph}{\numberline {2.3.3.1}Đại số Bun}{6}{paragraph.2.3.3.1}%
 \contentsline {paragraph}{\numberline {2.3.3.2}Bản đồ Karnaugh}{6}{paragraph.2.3.3.2}%
 \contentsline {subparagraph}{Các dạng bản đồ Karnaugh cơ bản:}{7}{section*.2}%
-\contentsline {subparagraph}{Ví dụ:}{7}{section*.3}%
 \contentsline {paragraph}{\numberline {2.3.3.3}Đơn giản hàm theo dạng SOP}{7}{paragraph.2.3.3.3}%
-\contentsline {paragraph}{\numberline {2.3.3.4}Đơn giản hàm theo dạng POS}{8}{paragraph.2.3.3.4}%
-\contentsline {subsection}{\numberline {2.4}Một số bài tập thiết kế mạch}{8}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Một số mạch tổ hợp cơ bản}{10}{subsection.2.5}%
-\contentsline {subsubsection}{\numberline {2.5.1}Mạch toàn cộng (Full adder)}{10}{subsubsection.2.5.1}%
-\contentsline {subsubsection}{\numberline {2.5.2}Mạch giải mã(Decoder)}{10}{subsubsection.2.5.2}%
-\contentsline {subsubsection}{\numberline {2.5.3}Mạch mã hóa(Encoder)}{10}{subsubsection.2.5.3}%
+\contentsline {paragraph}{\numberline {2.3.3.4}Đơn giản hàm theo dạng POS}{9}{paragraph.2.3.3.4}%
+\contentsline {subsection}{\numberline {2.4}Một số bài tập thiết kế mạch}{10}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Một số mạch tổ hợp cơ bản}{12}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}Mạch toàn cộng (Full adder)}{12}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2}Mạch giải mã(Decoder)}{12}{subsubsection.2.5.2}%
+\contentsline {subsubsection}{\numberline {2.5.3}Mạch mã hóa(Encoder)}{12}{subsubsection.2.5.3}%

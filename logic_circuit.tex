@@ -245,7 +245,6 @@
         \LARGE Ngày 05/07/2021
     \end{center}
     \end{minipage}\\[2cm]
-    \includegraphics[width=10em]{images/profile.png}
     \vspace*{\fill} % Fill the rest of the page with whitespace
     \end{titlepage}
 
@@ -297,9 +296,6 @@ Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transi
 
 \subsection{Bảng chân trị}
 
-\begin{tcolorbox}
-    \textbf{Example:} This is a box    
-\end{tcolorbox}
 
 \begin{itemize}
     \item \textbf{\textcolor{red}{AND}}
@@ -542,10 +538,19 @@ Ví dụ: (Thêm sau)
     \item Khuyết điểm:
         \SubItem{Không có cách là tổng quát cho mọi bài toán}
         \SubItem{Không chắc kết quả cuối cùng đã tối giản chưa}  
-    \item Ví dụ: Đơn giản hóa các hàm sau
-        \SubItem{\(F(x,y,z) = xyz + \overline{x}yz + x\overline{y}z + xy\overline{z}\)}
-        
 \end{itemize}
+
+\begin{tcolorbox}
+    \textbf{Ví dụ:} Đơn giản hóa các hàm sau:
+    \(F(x,y,z) = xyz + \overline{x}yz + x\overline{y}z + xy\overline{z}\)
+\end{tcolorbox}
+
+\begin{align*}
+    F(x,y,z)    & = xyz + \overline{x}yz + x\overline{y}z + xy\overline{z} \\
+                & = .....
+\end{align*}
+
+
 \paragraph{Bản đồ Karnaugh}\mbox{}
 
 Mỗi tổ hợp biến trong bảng chân trị gọi là bộ trị(tạm hiểu là 1 dòng)
@@ -575,9 +580,9 @@ Mỗi tổ hợp biến trong bảng chân trị gọi là bộ trị(tạm hi�
     \implicant{4}{5}{}
 \end{Karnaughvuit}
 
-\subparagraph{Ví dụ:} \mbox{}
-
-\(F(A,B,C) = \Sigma(1,4,5,6,7) \)
+\begin{tcolorbox}
+    \textbf{Ví dụ:} \(F(A,B,C) = \Sigma(1,4,5,6,7) \)
+\end{tcolorbox}
 
 \begin{Karnaughvuit}
     \minterms{3,4}
@@ -620,7 +625,44 @@ Mỗi tổ hợp biến trong bảng chân trị gọi là bộ trị(tạm hi�
     \bm{F(A,B,C) = \overline{C} + A.\overline{B}}
 \end{equation*}
 
+\begin{tcolorbox}
+    \textbf{Ví dụ 3:} \(F(A,B,C,D) = \Sigma(0,1,2,6,8,9,10)\)
+\end{tcolorbox}
+
+\includegraphics[width=15cm]{sop_ex3.png}
+
+\begin{equation*}
+    \color{red}
+    \bm{F(A,B,C) = \overline{B}.\overline{D} + \overline{B}.\overline{C} + \overline{A}.C.\overline{D}}
+\end{equation*}
+
 \paragraph{Đơn giản hàm theo dạng POS}
+
+\begin{itemize}
+    \item Đôi khi biểu diễn dạng tổng các tích (SOP) sẽ khó làm khi \textcolor{red}{số bộ trị có đầu ra = 1 < số bộ trị có đầu ra = 0}
+        \SubItem {Dùng phương pháp tích các tổng (POS)}
+    \item Hoàn toàn giống phương pháp đơn giản hàm theo dạng SOP, chỉ khác ta \textcolor{red}{nhóm các ô liền kề = 0} thay vì 1
+        \SubItem {\textcolor{red}{Tìm được \(\overline{F}\)}}
+        \SubItem{\color{red}\(\rightarrow F = \overline{\overline{F}}\)}
+\end{itemize}
+
+\begin{tcolorbox}
+    \textbf{Ví dụ:} \(F(A,B,C,D) = \Sigma(0,1,2,5,8,9,10)\)
+\end{tcolorbox}
+
+\includegraphics[width=15cm]{pos_ex.png}
+
+\begin{equation*}
+    \color{red}
+    \bm{\overline{F(A,B,C)} = CD + B\overline{D} + AB}
+\end{equation*}
+
+{\color{red}
+\begin{align*}
+    \bm{F} & \bm{= \overline{\overline{F}}} \\
+      & \bm{= (\overline{A} + \overline{B}).(\overline{C} + \overline{D}).(\overline{B} + D)}
+\end{align*}}
+
 
 \subsection{Một số bài tập thiết kế mạch}
 \begin{tcolorbox}
@@ -725,7 +767,14 @@ Mỗi tổ hợp biến trong bảng chân trị gọi là bộ trị(tạm hi�
         7                             & 1                         & 1                         & 1                         & 0                        \\ \hline
         \end{tabular}
         \end{table}
+        \begin{equation*}
+            \color{red}
+            \bm{F(x,y,z) = \Sigma(3,5,6,7)}
+        \end{equation*}
     \item \textbf{Bước 2:} Lập biểu thức
+    
+    {\centering \includegraphics[width=15cm]{design_ex3.png}}
+
     \begin{align*}
         F & = \overline{A}.\overline{B}.\overline{C} + \overline{A}.B.C + A.B.\overline{C} \\
           & = \overline{A}.\overline{B}.\overline{C} + B.(\overline{A}.C + A.\overline{C}) \\
@@ -734,15 +783,7 @@ Mỗi tổ hợp biến trong bảng chân trị gọi là bộ trị(tạm hi�
 
     \item \textbf{Bước 3:} Vẽ mạch
 
-    \centering
-    \begin{circuitikz} \draw
-    
-        (0,1) node[xor port] (myxor1) {}
-            (myxor1.in 1) node [anchor=east] {A}
-            (myxor1.in 2) node [anchor=east] {B}
-            (myxor1.out)  node [anchor=west] {out};
-        
-        \end{circuitikz}
+
 \end{itemize}
 
 \subsection{Một số mạch tổ hợp cơ bản}
