@@ -429,7 +429,94 @@ Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transi
 
 \subsection{Lược đồ Venn}
 
+{\centering
+\begin{tikzpicture}
+    \definecolor{bluea}{HTML}{3498db}
+    % Circle with label at 270 deg.
+    \node[draw,
+        circle,
+        minimum size =3cm,
+        fill=bluea,
+        label={270:$A$}] (circle1) at (0,-2){};
+    \end{tikzpicture}
+\begin{tikzpicture}
+    \definecolor{bluea}{HTML}{3498db}
+    % Circle with label at 270 deg.
+    \node[draw,
+        circle,
+        minimum size =3cm,
+        fill=white,
+        label={270:$\overline{A}$}] (circle1) at (0,-2){};
+
+    \end{tikzpicture}
+\begin{tikzpicture}[thick]
+    \definecolor{bluea}{HTML}{3498db}
+    \def\a{1}\def\r{1.5}
+    \path (0:\a) coordinate (A) (180:\a) coordinate (B);
+    \foreach \x in {A,B} \draw (\x) circle (\r cm);
+    \begin{scope}
+     \clip (A) circle (\r cm);
+     \fill[bluea] (B) circle (\r cm);
+    \end{scope}
+    \draw (0,-2) node {$A . B$};
+    \end{tikzpicture}
+}
+\begin{tikzpicture}[thick]
+    \definecolor{bluea}{HTML}{3498db}
+    \definecolor{pinkb}{HTML}{8e44ad}
+    \def\a{1}\def\r{1.5}
+    \path (0:\a) coordinate (A) (180:\a) coordinate (B);
+     \fill[bluea] (B) circle (\r cm) (A) circle (\r cm);
+     \draw (0,-2) node {$A + B$};
+    \foreach \x in {A,B} \draw (\x) circle (\r cm);
+    \end{tikzpicture}
+\begin{tikzpicture}[fill=yellow]
+    \definecolor{bluea}{HTML}{3498db}
+
+% left hand
+    \scope
+    \clip (-1,-1) rectangle (3,2)
+        (1,0) circle (1);
+    \fill (0,0) circle (1);
+    \endscope
+    % right hand
+    \scope
+    \clip (-1,-1) rectangle (2,1)
+        (0,0) circle (1);
+    \fill (1,0) circle (1);
+    \endscope
+    % outline
+    \draw (0,0) circle (1)
+        (1,0) circle (1);
+    \draw (0,-2) node {$\overline{A} + \overline{B}$};
+    \end{tikzpicture}
 \subsection{Một số đẳng thức cơ bản}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+    %\resizebox{\textwidth}{!}{\begin{tabular}{|l|l|}
+    \hline
+    \rowcolor[HTML]{F7E7B7} 
+    $x + 0 = x$                   & $x . 0 = 0$                   \\ \hline
+    $x + 1 = 1$                   & $x . 1 = x$                   \\ \hline
+    \rowcolor[HTML]{F7E7B7} 
+    $x + x = x$                   & $x . x = x$                   \\ \hline
+    \rowcolor[HTML]{FFFFFF} 
+    $x + x' = 1$                  & $x . \overline{x} = 0$                  \\ \hline
+    \rowcolor[HTML]{F7E7B7} 
+    $x + y = y + x$               & $xy = yx$                     \\ \hline
+    \rowcolor[HTML]{FFFFFF} 
+    $x + (y + z) = (x + y) + z$   & $x(yz) = (xy)z$               \\ \hline
+    \rowcolor[HTML]{F7E7B7} 
+    $x(y + z) = xy + xz$          & $x + yz = (x + y)(x + z)$     \\ \hline
+    \rowcolor[HTML]{FFFFFF} 
+    $\overline{(x + y)} = \overline{x}.\overline{y} (De Morgan)$ & $\overline{xy} = \overline{x} + \overline{y} (De Morgan)$ \\ \hline
+    \rowcolor[HTML]{F7E7B7} 
+    $\overline{\overline{x}} = x$                   &                             \\ \hline
+    \end{tabular}
+    \end{table}
+
 
 \section{Mạch tổ hợp}
 
