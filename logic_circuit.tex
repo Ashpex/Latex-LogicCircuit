@@ -282,14 +282,14 @@ Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transi
     % \begin{tabular}{|l|l|l|}
     \resizebox{\textwidth}{!}{\begin{tabular}{|l|c|l|}
     \hline
-    \multicolumn{1}{|c|}{{\color[HTML]{9A0000} \textbf{Tên cổng}}} & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hình vẽ đại diện}}}                       & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hàm đại số Bun}}} \\ \hline
-    {\color[HTML]{963400} AND}                                     & \begin{circuitikz} \draw (4,4) node[and port, scale = 0.5] {}; \end{circuitikz}    & \textbackslash{}x.y hay \textbackslash{}xy                          \\ \hline
-    {\color[HTML]{963400} OR}                                      & \begin{circuitikz} \draw (4,4) node[or port, scale = 0.5] {}; \end{circuitikz}     & x + Y                                                               \\ \hline
-    {\color[HTML]{963400} XOR}                                     & \begin{circuitikz} \draw (0,1) node[xor port, scale = 0.5] {}; \end{circuitikz}    & \textbackslash{}oplus                                               \\ \hline
-    {\color[HTML]{963400} NOT}                                     & \begin{circuitikz} \draw (0,1) node[not port, scale = 0.5] {}; \end{circuitikz}    &                                                                     \\ \hline
-    {\color[HTML]{963400} NAND}                                    & \begin{circuitikz} \draw (0,1) node[nand port, scale = 0.5] {}; \end{circuitikz}   &                                                                     \\ \hline
-    {\color[HTML]{963400} NOR}                                     & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}    &                                                                     \\ \hline
-    {\color[HTML]{963400} NXOR}                                    & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}   &                                                                     \\ \hline
+    \multicolumn{1}{|c|}{{\color[HTML]{9A0000} \textbf{Tên cổng}}} & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hình vẽ đại diện}}}                       & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hàm đại số Bun}}}                  \\ \hline
+    {\color[HTML]{963400} AND}                                     & \begin{circuitikz} \draw (4,4) node[and port, scale = 0.5] {}; \end{circuitikz}    & \(x.y\) hay \(xy\)                                                                            \\ \hline
+    {\color[HTML]{963400} OR}                                      & \begin{circuitikz} \draw (4,4) node[or port, scale = 0.5] {}; \end{circuitikz}     & \(x + y\)                                                                                     \\ \hline
+    {\color[HTML]{963400} XOR}                                     & \begin{circuitikz} \draw (0,1) node[xor port, scale = 0.5] {}; \end{circuitikz}    & \(x \oplus y\)                                                                                \\ \hline
+    {\color[HTML]{963400} NOT}                                     & \begin{circuitikz} \draw (0,1) node[not port, scale = 0.5] {}; \end{circuitikz}    & \(x'\) hay \(\overline{x}\)                                                                   \\ \hline
+    {\color[HTML]{963400} NAND}                                    & \begin{circuitikz} \draw (0,1) node[nand port, scale = 0.5] {}; \end{circuitikz}   & \((x.y)'\) hay \(\overline{xy}\)                                                              \\ \hline
+    {\color[HTML]{963400} NOR}                                     & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}    & \((x+y)'\) hay \(\overline{x+y}\)                                                             \\ \hline
+    {\color[HTML]{963400} NXOR}                                    & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}    & \((x \oplus y)'\) hay \(\overline{x \oplus y}\)                                                                    \\ \hline
     \end{tabular}}
     \end{table}
 
@@ -427,6 +427,8 @@ Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transi
         \end{table}
 \end{itemize}
 
+\subsection{Lược đồ Venn}
+
 \subsection{Một số đẳng thức cơ bản}
 
 \section{Mạch tổ hợp}
@@ -444,7 +446,7 @@ Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transi
 \begin{itemize}
     \item Độ trễ mạch (\textcolor{red}{Propagation delay/ gate delay}) = Thời gian điểm tín hiệu ra ổn định \(-\) thời điểm tín hiệu vào ổn định.
     \item Mục tiêu thiết kế mạch: làm giảm thời gian độ trễ mạch.
-    \subitem \includegraphics[width=7cm]{delay.png}
+    \subitem \includegraphics[width=9cm]{delay.png}
 \end{itemize}
 
 \subsection{Các bước thiết kế}
@@ -563,34 +565,40 @@ Mỗi tổ hợp biến trong bảng chân trị gọi là bộ trị(tạm hi�
 
 
 \subparagraph{Các dạng bản đồ Karnaugh cơ bản:}
+\subparagraph{}
 
+\begin{figure}[H]
+\includegraphics[width=4cm]{k_1.png}
+\includegraphics[width=5cm]{k_2.png}
+\includegraphics[width=6cm]{k_3.png}
+\end{figure}
 
-\begin{Karnaughquatre}
-    \minterms{1,2}
-    \maxterms{0,3}
-    \implicantsol{1}{green}
-    \implicantsol{2}{red}
-\end{Karnaughquatre}
+%\begin{Karnaughquatre}
+%    \minterms{1,2}
+%    \maxterms{0,3}
+%    \implicantsol{1}{green}
+%    \implicantsol{2}{red}
+%\end{Karnaughquatre}
 
-\begin{Karnaughvuit}
-    \minterms{3,4}
-     \maxterms{0,1,6,7}
-    \indeterminats{2,5}
-    \implicant{3}{2}{green}
-    \implicant{4}{5}{}
-\end{Karnaughvuit}
+%\begin{Karnaughvuit}
+%   \minterms{3,4}
+%     \maxterms{0,1,6,7}
+%    \indeterminats{2,5}
+%    \implicant{3}{2}{green}
+%    \implicant{4}{5}{}
+%\end{Karnaughvuit}
 
 \begin{tcolorbox}
     \textbf{Ví dụ:} \(F(A,B,C) = \Sigma(1,4,5,6,7) \)
 \end{tcolorbox}
 
-\begin{Karnaughvuit}
-    \minterms{3,4}
-     \maxterms{2,3,4,5,6}
-    \indeterminats{}
-    \implicant{3}{2}{green}
-    \implicant{5}{6}{yellow}
-\end{Karnaughvuit}
+%\begin{Karnaughvuit}
+%    \minterms{3,4}
+%     \maxterms{2,3,4,5,6}
+%    \indeterminats{}
+%    \implicant{3}{2}{green}
+%    \implicant{5}{6}{yellow}
+%\end{Karnaughvuit}
 
 \paragraph{Đơn giản hàm theo dạng SOP}
 
