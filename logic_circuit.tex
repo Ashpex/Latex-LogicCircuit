@@ -283,12 +283,16 @@ Hiện nay linh kiện cơ bản tạo ra mạch số là \textcolor{red}{transi
     \resizebox{\textwidth}{!}{\begin{tabular}{|l|c|l|}
     \hline
     \multicolumn{1}{|c|}{{\color[HTML]{9A0000} \textbf{Tên cổng}}} & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hình vẽ đại diện}}}                       & \multicolumn{1}{c|}{{\color[HTML]{9A0000} \textbf{Hàm đại số Bun}}}                  \\ \hline
+    \rowcolor[HTML]{F7E7B7}
     {\color[HTML]{963400} AND}                                     & \begin{circuitikz} \draw (4,4) node[and port, scale = 0.5] {}; \end{circuitikz}    & \(x.y\) hay \(xy\)                                                                            \\ \hline
     {\color[HTML]{963400} OR}                                      & \begin{circuitikz} \draw (4,4) node[or port, scale = 0.5] {}; \end{circuitikz}     & \(x + y\)                                                                                     \\ \hline
+    \rowcolor[HTML]{F7E7B7}
     {\color[HTML]{963400} XOR}                                     & \begin{circuitikz} \draw (0,1) node[xor port, scale = 0.5] {}; \end{circuitikz}    & \(x \oplus y\)                                                                                \\ \hline
     {\color[HTML]{963400} NOT}                                     & \begin{circuitikz} \draw (0,1) node[not port, scale = 0.5] {}; \end{circuitikz}    & \(x'\) hay \(\overline{x}\)                                                                   \\ \hline
+    \rowcolor[HTML]{F7E7B7}
     {\color[HTML]{963400} NAND}                                    & \begin{circuitikz} \draw (0,1) node[nand port, scale = 0.5] {}; \end{circuitikz}   & \((x.y)'\) hay \(\overline{xy}\)                                                              \\ \hline
     {\color[HTML]{963400} NOR}                                     & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}    & \((x+y)'\) hay \(\overline{x+y}\)                                                             \\ \hline
+    \rowcolor[HTML]{F7E7B7}
     {\color[HTML]{963400} NXOR}                                    & \begin{circuitikz} \draw (0,1) node[nor port, scale = 0.5] {}; \end{circuitikz}    & \((x \oplus y)'\) hay \(\overline{x \oplus y}\)                                                                    \\ \hline
     \end{tabular}}
     \end{table}
